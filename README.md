@@ -1,4 +1,4 @@
-# 🚦 AI-Driven Dynamic Traffic Light Management System
+# 🚦Advance Traffic Light Management System
 
 An enterprise-grade, full-stack traffic management dashboard that uses real-time Computer Vision (YOLOv8) to dynamically route traffic based on vehicle density. It features a Fairness/Anti-Starvation algorithm to balance wait times and utilizes WebRTC for sub-second latency video streaming.
 
