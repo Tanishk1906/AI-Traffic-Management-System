@@ -4,7 +4,7 @@ An intelligent traffic optimization system that combines **Machine Learning**, *
 
 The system utilizes **YOLOv8 Object Detection** to analyze traffic feeds in real time, estimates congestion levels across multiple lanes, and applies a custom **Fairness-Based Scheduling Algorithm** to optimize traffic flow while preventing lane starvation.
 
-This project demonstrates the practical application of AI in smart city infrastructure and intelligent transportation systems.
+The platform also provides a real-time monitoring dashboard accessible through **http://localhost:3000**, enabling operators to observe traffic conditions, AI-generated insights, vehicle counts, and signal states in real time.
 
 ---
 
@@ -17,7 +17,7 @@ Traditional traffic lights operate on fixed timers regardless of actual road con
 * Fuel wastage
 * Reduced traffic efficiency
 
-The objective of this project is to develop an AI-driven traffic control system capable of:
+This project introduces an AI-driven solution capable of:
 
 * Understanding traffic density automatically
 * Making real-time decisions
@@ -26,13 +26,13 @@ The objective of this project is to develop an AI-driven traffic control system 
 
 ---
 
-# 🧠 Machine Learning & AI Components
+# 🧠 Machine Learning & Computer Vision
 
 ## Vehicle Detection using YOLOv8
 
-The system employs **YOLOv8 Nano**, a state-of-the-art real-time object detection model, to detect and count vehicles from live camera feeds.
+The system employs **YOLOv8 Nano**, a state-of-the-art real-time object detection model, to detect and count vehicles from multiple traffic feeds.
 
-### Detected Classes
+### Detected Vehicle Classes
 
 * Car
 * Bus
@@ -63,14 +63,15 @@ Traffic Signal Allocation
 
 * Real-time inference capability
 * High detection accuracy
-* Low computational overhead
+* Lightweight architecture
 * Suitable for edge deployments
+* Industry-standard object detection framework
 
 ---
 
 # ⚙️ Intelligent Traffic Scheduling
 
-Instead of fixed timers, signal duration is computed dynamically.
+Unlike conventional fixed-time traffic signals, this system dynamically computes signal duration based on current traffic conditions.
 
 ### Dynamic Green Time Formula
 
@@ -88,28 +89,28 @@ Weight Factor = 1.5
 Green Time = 20 seconds
 ```
 
-This allows highly congested lanes to receive longer green durations automatically.
+This allows heavily congested lanes to receive longer green durations automatically.
 
 ---
 
 # ⚖️ Fairness-Based Scheduling Algorithm
 
-One limitation of density-based systems is lane starvation.
+A purely density-based system can lead to lane starvation.
 
-To address this, the system implements an Anti-Starvation mechanism:
+To solve this problem, the system implements a custom Anti-Starvation Algorithm:
 
-* Each lane tracks wait cycles.
-* Priority increases with waiting time.
-* Low-density lanes receive scheduling boosts.
-* Every lane is guaranteed service within a bounded number of cycles.
+* Tracks waiting cycles for each lane
+* Increases priority as wait time grows
+* Guarantees service for low-density lanes
+* Balances efficiency and fairness
 
-This combines optimization with fairness, making the system more practical for real-world deployment.
+This approach improves practicality for real-world deployments.
 
 ---
 
 # 📡 Real-Time Streaming Architecture
 
-The platform provides ultra-low latency monitoring using WebRTC.
+The platform supports ultra-low latency monitoring using WebRTC.
 
 ### Features
 
@@ -117,6 +118,7 @@ The platform provides ultra-low latency monitoring using WebRTC.
 * Browser-based streaming
 * On-demand feed activation
 * Reduced network bandwidth consumption
+* Real-time visual monitoring
 
 ---
 
@@ -124,15 +126,15 @@ The platform provides ultra-low latency monitoring using WebRTC.
 
 ### ✅ Real-Time Vehicle Detection
 
-YOLOv8-based vehicle counting from multiple traffic feeds.
+YOLOv8-powered vehicle counting from multiple traffic feeds.
 
 ### ✅ Dynamic Signal Allocation
 
-Adaptive green light duration based on vehicle density.
+Adaptive signal timing based on live vehicle density.
 
 ### ✅ Fairness Optimization
 
-Prevents starvation of low-density lanes.
+Prevents lane starvation and ensures balanced traffic flow.
 
 ### ✅ Telemetry Mode
 
@@ -150,7 +152,11 @@ Live monitoring of:
 
 ### ✅ WebRTC Streaming
 
-Low-latency traffic feed visualization.
+Ultra-low latency live traffic feed visualization.
+
+### ✅ WebSocket Synchronization
+
+Instant communication between AI worker, backend controller, and dashboard.
 
 ---
 
@@ -177,7 +183,7 @@ Traffic Decision Engine
 Node.js Controller
        │
        ▼
-WebSocket Communication
+Socket.io Communication
        │
        ▼
 React Dashboard
@@ -187,7 +193,7 @@ React Dashboard
 
 # 🛠️ Technology Stack
 
-## Machine Learning
+## Machine Learning & Computer Vision
 
 * YOLOv8
 * Ultralytics
@@ -205,11 +211,12 @@ React Dashboard
 * React.js
 * CSS3
 
-## Streaming
+## Streaming & Communication
 
 * WebRTC
 * aiortc
 * aiohttp
+* WebSockets
 
 ---
 
@@ -243,33 +250,32 @@ traffic-light-system/
 
 # ⚙️ Installation
 
-### Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/Tanishk1906/AI-Traffic-Management-System.git
+
 cd AI-Traffic-Management-System
 ```
 
-### Backend
+## Backend Setup
 
 ```bash
 cd backend
 npm install
-npm start
 ```
 
-### Frontend
+## Frontend Setup
 
 ```bash
-cd frontend
+cd ../frontend
 npm install
-npm start
 ```
 
-### Computer Vision Worker
+## Python Environment Setup
 
 ```bash
-cd cv_worker
+cd ../cv_worker
 
 python -m venv .venv
 
@@ -277,21 +283,68 @@ python -m venv .venv
 .venv\Scripts\activate
 
 pip install -r requirements.txt
-
-python webrtc_tracker.py
 ```
 
 ---
 
-# 📈 Future Improvements
+# ▶️ Running the Application
 
-* Reinforcement Learning-based signal optimization
-* Traffic congestion prediction using time-series forecasting
+After starting all services, the application will be available locally.
+
+| Service            | URL                   |
+| ------------------ | --------------------- |
+| React Dashboard    | http://localhost:3000 |
+| Backend Server     | http://localhost:4000 |
+| AI & WebRTC Worker | http://localhost:5000 |
+
+### Terminal 1 — Backend
+
+```bash
+cd backend
+npm start
+```
+
+### Terminal 2 — Frontend
+
+```bash
+cd frontend
+npm start
+```
+
+### Terminal 3 — AI Worker
+
+```bash
+cd cv_worker
+python webrtc_tracker.py
+```
+
+### Open Dashboard
+
+```text
+http://localhost:3000
+```
+
+The dashboard provides:
+
+* Real-time vehicle counts
+* Dynamic signal allocation
+* Live traffic monitoring
+* Wait-cycle analytics
+* AI-powered decision making
+* WebRTC-based camera streams
+
+---
+
+# 📈 Future Enhancements
+
+* Reinforcement Learning-based traffic optimization
+* Traffic congestion forecasting
 * Emergency vehicle prioritization
 * Multi-junction coordination
 * Edge AI deployment using NVIDIA Jetson
-* Cloud-based traffic analytics
-* Historical traffic pattern analysis
+* Historical traffic analytics
+* Cloud deployment and monitoring
+* Smart city infrastructure integration
 
 ---
 
@@ -315,8 +368,9 @@ This project demonstrates practical experience in:
 * Real-Time Inference Systems
 * Applied AI for Smart Cities
 * Distributed System Design
-* Full-Stack Development
 * WebRTC Streaming
+* Full-Stack Development
+* Real-Time Data Processing
 
 ---
 
