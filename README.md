@@ -1,4 +1,4 @@
-# 🚦 AI-Powered Smart Traffic Management System
+# 🚦 Smart Traffic Management System
 
 An intelligent traffic optimization system that combines **Machine Learning**, **Computer Vision**, and **Real-Time Decision Making** to dynamically control traffic signals based on live vehicle density.
 
